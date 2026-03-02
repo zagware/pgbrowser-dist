@@ -6,9 +6,13 @@ Inspired by [k9s](https://k9scli.io/) for Kubernetes, pgbrowser brings the same 
 
 ## Features
 
-- **Hierarchical navigation** — browse Databases > Schemas > Tables > Table Detail with Enter/Esc drill-down
+- **Split-panel layout** — left panel lists items, right panel shows a live preview that updates as you move the cursor
+- **Hierarchical navigation** — browse Databases > Schemas > Tables with Enter/Esc drill-down
+- **Live preview** — schema-level shows tables preview, table-level shows columns/indexes/data tabs
+- **SQL query panel** — built-in query editor at the table level with results table (`Ctrl+E` to execute)
+- **Panel focus cycling** — `Tab` moves focus between left panel, detail tabs, query input, and query results
 - **Breadcrumb trail** — always know where you are in the cluster hierarchy
-- **Live fuzzy filtering** — press `/` to instantly filter any list as you type
+- **Live fuzzy filtering** — press `/` to filter whichever panel has focus
 - **Command mode** — press `:` to jump directly to a resource level (`:databases`, `:schemas`)
 - **Table detail tabs** — view Columns, Indexes, and Sample Data (first 50 rows) with `[`/`]` tab switching
 - **Estimated row counts** — fast row count estimates (no full table scans)
@@ -65,22 +69,47 @@ pgbrowser --help
 | `j` / `k` / `Up` / `Down` | Move up/down in lists |
 | `Enter` | Drill into selected item |
 | `Esc` | Go back one level |
-| `/` | Live fuzzy filter (type to narrow, Esc to clear) |
+| `Tab` | Cycle focus between panels |
+| `/` | Live fuzzy filter (applies to focused panel) |
 | `:` | Command mode (`:databases`, `:quit`) |
 | `[` / `]` | Switch tabs in table detail view |
+| `Ctrl+E` | Execute SQL in query panel |
 | `q` | Quit |
+
+## Layout
+
+pgbrowser uses a split-panel layout that shows more information at a glance:
+
+```
+┌──────────────────┬──────────────────────────────┐
+│ Tables           │ Columns | Indexes | Data      │
+│ ▸ users          │  id       bigint   NOT NULL   │
+│   orders         │  email    varchar  NOT NULL   │
+│   products       │  name     varchar  YES        │
+│                  ├──────────────────────────────┤
+│                  │ Query [Ctrl+E to run]         │
+│                  │ SELECT * FROM users LIMIT 10  │
+│                  │──────────────────────────────│
+│                  │ id │ email       │ name       │
+│                  │  1 │ foo@bar.com │ Alice      │
+└──────────────────┴──────────────────────────────┘
+```
+
+- **Database level** — database list (left) + info card (right)
+- **Schema level** — schema list (left) + live tables preview (right)
+- **Table level** — table list (left) + detail tabs + query panel (right)
 
 ## Navigation Hierarchy
 
 ```
 Cluster (connection info)
   +-- Databases
-       +-- Schemas
-            +-- Tables (with estimated row counts)
-                 +-- Table Detail
-                      +-- Columns   (name, type, nullable, default)
-                      +-- Indexes   (name, definition)
-                      +-- Data      (first 50 rows)
+       +-- Schemas (right panel previews tables)
+            +-- Tables (right panel shows detail + query)
+                 +-- Columns   (name, type, nullable, default)
+                 +-- Indexes   (name, definition)
+                 +-- Data      (first 50 rows)
+                 +-- Query     (SQL editor + results)
 ```
 
 ## Screenshots
