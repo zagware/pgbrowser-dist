@@ -9,6 +9,7 @@ Inspired by [k9s](https://k9scli.io/) for Kubernetes, pgbrowser brings the same 
 - **Split-panel layout** — left panel lists items, right panel shows a live preview that updates as you move the cursor
 - **Hierarchical navigation** — browse Databases > Schemas > Tables with Enter/Esc drill-down
 - **Live preview** — schema-level shows tables preview, table-level shows columns/indexes/data tabs
+- **Cluster-wide query** — run read-only SQL across every database in the cluster from the databases view, with results in a combined table showing a `database` column
 - **SQL query panel** — built-in query editor at the table level with results table (`Ctrl+E` to execute)
 - **Panel focus cycling** — `Tab` moves focus between left panel, detail tabs, query input, and query results
 - **Breadcrumb trail** — always know where you are in the cluster hierarchy
@@ -95,7 +96,7 @@ pgbrowser uses a split-panel layout that shows more information at a glance:
 └──────────────────┴──────────────────────────────┘
 ```
 
-- **Database level** — database list (left) + info card (right)
+- **Database level** — database list (left) + cluster query panel (right) — run SQL across all databases
 - **Schema level** — schema list (left) + live tables preview (right)
 - **Table level** — table list (left) + detail tabs + query panel (right)
 
@@ -103,7 +104,7 @@ pgbrowser uses a split-panel layout that shows more information at a glance:
 
 ```
 Cluster (connection info)
-  +-- Databases
+  +-- Databases (right panel: cluster query — run SQL across all DBs)
        +-- Schemas (right panel previews tables)
             +-- Tables (right panel shows detail + query)
                  +-- Columns   (name, type, nullable, default)
