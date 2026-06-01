@@ -9,8 +9,9 @@ Inspired by [k9s](https://k9scli.io/) for Kubernetes, pgbrowser brings the same 
 - **Split-panel layout** — left panel lists items, right panel shows a live preview that updates as you move the cursor
 - **Hierarchical navigation** — browse Databases > Schemas > Tables with Enter/Esc drill-down
 - **Live preview** — schema-level shows tables preview, table-level shows columns/indexes/data tabs
-- **Cluster-wide query** — run read-only SQL across every database in the cluster from the databases view, with results in a combined table showing a `database` column
+- **Cluster-wide query** — run read-only SQL across every database in the cluster from the databases view, with results in a combined table showing a `database` column; live progress indicator shows which database is being queried (`Querying 3/10: mydb`)
 - **SQL query panel** — built-in query editor at the table level with results table (`Ctrl+E` to execute)
+- **CSV export** — save query results to a timestamped CSV file in the current directory with `Ctrl+S` (works in both the cluster query panel and the table-level query panel)
 - **Panel focus cycling** — `Tab` moves focus between left panel, detail tabs, query input, and query results
 - **Breadcrumb trail** — always know where you are in the cluster hierarchy
 - **Live fuzzy filtering** — press `/` to filter whichever panel has focus
@@ -75,6 +76,7 @@ pgbrowser --help
 | `:` | Command mode (`:databases`, `:quit`) |
 | `[` / `]` | Switch tabs in table detail view |
 | `Ctrl+E` | Execute SQL in query panel |
+| `Ctrl+S` | Save query results to CSV (when results are shown) |
 | `q` | Quit |
 
 ## Layout
@@ -96,9 +98,9 @@ pgbrowser uses a split-panel layout that shows more information at a glance:
 └──────────────────┴──────────────────────────────┘
 ```
 
-- **Database level** — database list (left) + cluster query panel (right) — run SQL across all databases
+- **Database level** — database list (left) + cluster query panel (right) — run SQL across all databases with live per-database progress; `Ctrl+S` saves combined results to `pgcluster_*.csv`
 - **Schema level** — schema list (left) + live tables preview (right)
-- **Table level** — table list (left) + detail tabs + query panel (right)
+- **Table level** — table list (left) + detail tabs + query panel (right); `Ctrl+S` saves results to `pgquery_*.csv`
 
 ## Navigation Hierarchy
 
